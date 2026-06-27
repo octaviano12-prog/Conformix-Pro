@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo | Conformix Pro</title>
+  <meta name="description" content="Demonstracao do Conformix Pro com dados ficticios.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-body">
+  <aside class="sidebar">
+    <a class="brand app-brand" href="index.html">
+      <span class="brand-mark">C</span>
+      <span><strong>Conformix Pro</strong><small>Demo v1.0</small></span>
+    </a>
+    <nav class="app-menu" aria-label="Menu da demonstracao">
+      <button class="menu-item active" data-view="dashboard"><span>01</span>Dashboard</button>
+      <button class="menu-item" data-view="employees"><span>02</span>Funcionarios</button>
+      <button class="menu-item" data-view="certificates"><span>03</span>Certificados</button>
+      <button class="menu-item" data-view="idcards"><span>04</span>Carteirinhas</button>
+      <button class="menu-item" data-view="reports"><span>05</span>Relatorios</button>
+    </nav>
+    <div class="sidebar-note">
+      <strong>Demo comercial</strong>
+      <p>Dados ficticios para apresentacao. Nenhuma informacao real e utilizada.</p>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="app-topbar">
+      <div>
+        <p class="breadcrumb">Principal / <span id="viewLabel">Dashboard</span></p>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="top-actions">
+        <label class="search-box">
+          <span>Buscar</span>
+          <input id="globalSearch" type="search" placeholder="Buscar no sistema...">
+        </label>
+        <button class="outline-button" id="consultButton">Consultar certificado</button>
+        <div class="avatar">AS</div>
+      </div>
+    </header>
+
+    <section class="demo-banner">
+      <div>
+        <strong>Ambiente demonstrativo</strong>
+        <span>Use livremente para apresentar o fluxo ao cliente.</span>
+      </div>
+      <a href="index.html">Voltar para home</a>
+    </section>
+
+    <section id="viewRoot" class="view-root"></section>
+  </main>
+
+  <div class="modal hidden" id="modal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Fechar">x</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="demo.js"></script>
+</body>
+</html>
