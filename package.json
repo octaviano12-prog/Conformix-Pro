@@ -1,0 +1,18 @@
+{
+  "name": "conformix-pro-demo",
+  "version": "1.0.0",
+  "description": "Demo comercial do Conformix Pro para gestao de conformidade industrial.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "nr",
+    "compliance",
+    "seguranca-do-trabalho",
+    "certificados",
+    "industrial"
+  ],
+  "author": "Conformix Pro",
+  "license": "ISC"
+}

@@ -14,27 +14,71 @@ const certificates = [
   { code: 'CFX-EPI-2026-203', employee: 'Marina Costa Almeida', training: 'Entrega de EPI', status: 'Valido', date: '22/11/2026', tone: 'green' }
 ];
 
-const views = {
-  dashboard: {
-    title: 'Dashboard',
-    render: renderDashboard
-  },
-  employees: {
-    title: 'Funcionarios',
-    render: renderEmployees
-  },
-  certificates: {
-    title: 'Certificados',
-    render: renderCertificates
-  },
-  idcards: {
-    title: 'Carteirinhas',
-    render: renderIdCards
-  },
-  reports: {
-    title: 'Relatorios',
-    render: renderReports
-  }
+const datasets = {
+  trainings: [
+    ['NR-35', 'Trabalho em Altura', '8 horas', '24 meses', 'Ativo'],
+    ['NR-11', 'Transporte e Movimentacao de Cargas', '16 horas', '24 meses', 'Ativo'],
+    ['NR-33', 'Espaco Confinado', '16 horas', '12 meses', 'Ativo'],
+    ['NR-18', 'Condicoes e Meio Ambiente de Trabalho', '6 horas', '24 meses', 'Ativo']
+  ],
+  aso: [
+    ['Carlos Henrique Oliveira', 'Admissional', '20/02/2026', '20/02/2027', 'Apto'],
+    ['Renata Lima Ferreira', 'Periodico', '20/06/2025', '20/06/2026', 'Vencido'],
+    ['Bianca Martins Rocha', 'Mudanca de risco', '15/04/2026', '15/04/2027', 'Apto']
+  ],
+  epi: [
+    ['Marina Costa Almeida', 'Capacete classe B', 'CA 49821', '2', '22/11/2026'],
+    ['Admilson Rodrigues Soares', 'Cinto paraquedista', 'CA 41520', '1', '13/08/2026'],
+    ['Renata Lima Ferreira', 'Luva raspa soldador', 'CA 30511', '4', '15/09/2026']
+  ],
+  equipment: [
+    ['Guindaste GT-44', 'Guindaste movel', 'GT44-2026', '45 t', 'Ativo'],
+    ['Munck MK-12', 'Caminhao Munck', 'MK12-009', '12 t', 'Manutencao'],
+    ['Talha Eletrica TE-08', 'Elevacao', 'TE08-772', '8 t', 'Ativo']
+  ],
+  cranes: [
+    ['Guindaste GT-44', 'Laudo estrutural', '12/07/2026', 'Vencendo', 'Porto Sul'],
+    ['Munck MK-12', 'Plano de rigging', '18/08/2026', 'Valido', 'Usina Vale Azul'],
+    ['Ponte rolante PR-20', 'Inspecao anual', '01/06/2026', 'Vencido', 'Metal Norte']
+  ],
+  clients: [
+    ['Usina Vale Azul', 'Industrial', 'Ribeirao Preto/SP', '18 funcionarios', 'Ativo'],
+    ['Porto Industrial Sul', 'Logistica', 'Santos/SP', '32 funcionarios', 'Ativo'],
+    ['Metal Norte', 'Metalurgia', 'Campinas/SP', '24 funcionarios', 'Ativo']
+  ],
+  projects: [
+    ['Parada Industrial NR-13', 'Usina Vale Azul', 'Em andamento', '82%', '5 alertas'],
+    ['Montagem Estrutural', 'Metal Norte', 'Finalizada', '100%', '0 alertas'],
+    ['Operacao Guindaste', 'Porto Industrial Sul', 'Aguardando documentos', '60%', '2 alertas']
+  ],
+  documents: [
+    ['APR-2026-019', 'Analise Preliminar de Risco', 'Parada Industrial NR-13', '15/07/2026', 'Valido'],
+    ['ART-2026-044', 'Responsabilidade Tecnica', 'Montagem Estrutural', '02/08/2026', 'Valido'],
+    ['RIG-2026-011', 'Plano de Rigging', 'Operacao Guindaste', '18/08/2026', 'Vencendo']
+  ],
+  matrix: [
+    ['Operador de Munck', 'NR-11, NR-35, Rigging basico', '12 aptos', '2 pendentes', '85%'],
+    ['Soldador', 'NR-18, EPI, APR', '9 aptos', '1 pendente', '90%'],
+    ['Supervisor de Obra', 'NR-35, NR-33, Lideranca SSMA', '6 aptos', '0 pendentes', '100%']
+  ]
+};
+
+const viewConfig = {
+  dashboard: { title: 'Dashboard', render: renderDashboard },
+  employees: { title: 'Funcionarios', render: renderEmployees },
+  trainings: { title: 'NRs / Treinamentos', render: () => renderTableModule('NRs / Treinamentos', 'Catalogo de treinamentos obrigatorios e reciclagens.', ['Codigo', 'Treinamento', 'Carga horaria', 'Validade', 'Status'], datasets.trainings) },
+  certificates: { title: 'Certificados', render: renderCertificates },
+  idcards: { title: 'Carteirinhas', render: renderIdCards },
+  aso: { title: 'ASO', render: () => renderTableModule('ASO', 'Controle de exames ocupacionais, aptidao e vencimentos.', ['Funcionario', 'Tipo', 'Emissao', 'Validade', 'Resultado'], datasets.aso) },
+  epi: { title: 'EPI', render: () => renderTableModule('EPI', 'Entrega, CA, quantidade e troca prevista de equipamentos de protecao.', ['Funcionario', 'EPI', 'CA', 'Quantidade', 'Troca prevista'], datasets.epi) },
+  equipment: { title: 'Equipamentos', render: () => renderTableModule('Equipamentos', 'Inventario tecnico de maquinas e equipamentos industriais.', ['Equipamento', 'Tipo', 'Patrimonio', 'Capacidade', 'Status'], datasets.equipment) },
+  cranes: { title: 'Guindastes / Munck', render: () => renderTableModule('Guindastes / Munck', 'Controle especial de equipamentos de elevacao e movimentacao.', ['Equipamento', 'Documento', 'Validade', 'Status', 'Obra'], datasets.cranes) },
+  clients: { title: 'Clientes', render: () => renderTableModule('Clientes', 'Base comercial e operacional dos clientes atendidos.', ['Cliente', 'Segmento', 'Local', 'Equipe', 'Status'], datasets.clients) },
+  projects: { title: 'Obras', render: () => renderTableModule('Obras', 'Acompanhamento de obras, status e pendencias documentais.', ['Obra', 'Cliente', 'Status', 'Progresso', 'Alertas'], datasets.projects) },
+  documents: { title: 'ART / APR / Rigging', render: () => renderTableModule('ART / APR / Rigging', 'Documentos tecnicos com validade, obra e rastreabilidade.', ['Codigo', 'Documento', 'Obra', 'Validade', 'Status'], datasets.documents) },
+  matrix: { title: 'Matriz de Competencia', render: () => renderTableModule('Matriz de Competencia', 'Aptidao por funcao, treinamento obrigatorio e pendencias.', ['Funcao', 'Requisitos', 'Aptos', 'Pendentes', 'Cobertura'], datasets.matrix) },
+  reports: { title: 'Relatorios', render: renderReports },
+  settings: { title: 'Configuracoes', render: renderSettings }
 };
 
 const root = document.getElementById('viewRoot');
@@ -52,21 +96,7 @@ modal.addEventListener('click', (event) => {
   if (event.target === modal) closeModal();
 });
 
-document.getElementById('consultButton').addEventListener('click', () => {
-  openModal(`
-    <p class="eyebrow dark">Consulta publica</p>
-    <h2 style="margin:0 0 12px;font-size:32px">Certificado autentico</h2>
-    <p style="color:var(--muted);line-height:1.7">Codigo <strong>CFX-NR35-2026-001</strong> validado na base demonstrativa do Conformix Pro.</p>
-    <div class="report-sheet" style="margin-top:18px">
-      <table>
-        <tr><th>Funcionario</th><td>Admilson Rodrigues Soares</td></tr>
-        <tr><th>Treinamento</th><td>NR-35 - Trabalho em Altura</td></tr>
-        <tr><th>Validade</th><td>13/08/2026</td></tr>
-        <tr><th>Status</th><td><span class="badge green">Valido</span></td></tr>
-      </table>
-    </div>
-  `);
-});
+document.getElementById('consultButton').addEventListener('click', () => showCertificate('CFX-NR35-2026-001'));
 
 document.getElementById('globalSearch').addEventListener('input', (event) => {
   const term = event.target.value.trim().toLowerCase();
@@ -76,7 +106,7 @@ document.getElementById('globalSearch').addEventListener('input', (event) => {
 });
 
 function setView(viewName) {
-  const view = views[viewName] || views.dashboard;
+  const view = viewConfig[viewName] || viewConfig.dashboard;
   title.textContent = view.title;
   label.textContent = view.title;
   document.querySelectorAll('.menu-item').forEach((button) => {
@@ -127,6 +157,17 @@ function renderDashboard() {
         </div>
       </section>
     </div>
+    <section class="panel">
+      <h2>Visao comercial da demo</h2>
+      <div class="module-grid">
+        ${Object.entries(viewConfig).filter(([key]) => key !== 'dashboard').map(([key, item]) => `
+          <button class="module-tile" onclick="setView('${key}')">
+            <strong>${item.title}</strong>
+            <span>Abrir modulo demonstrativo</span>
+          </button>
+        `).join('')}
+      </div>
+    </section>
   `;
 }
 
@@ -146,7 +187,7 @@ function renderEmployees() {
           <span>Empresa: <strong style="color:var(--ink)">${employee.company}</strong></span>
           <span>Matricula: <strong style="color:var(--ink)">${employee.badge}</strong></span>
         </div>
-        <div style="margin-top:18px;display:flex;gap:8px">
+        <div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap">
           <span class="badge green">${employee.status}</span>
           <button class="outline-button" onclick="openProfile(${employee.id})">Perfil</button>
         </div>
@@ -158,7 +199,13 @@ function renderEmployees() {
 function renderCertificates() {
   return `
     <section class="report-sheet">
-      <h2 style="margin-top:0">Certificados demonstrativos</h2>
+      <div class="table-heading">
+        <div>
+          <p class="eyebrow dark">Rastreabilidade</p>
+          <h2>Certificados demonstrativos</h2>
+        </div>
+        <button class="primary-button" onclick="window.print()">Imprimir / PDF</button>
+      </div>
       <table>
         <thead><tr><th>Codigo</th><th>Funcionario</th><th>Treinamento</th><th>Validade</th><th>Status</th><th>Acao</th></tr></thead>
         <tbody>
@@ -178,10 +225,44 @@ function renderCertificates() {
   `;
 }
 
+function renderTableModule(name, description, headers, rows) {
+  return `
+    <section class="module-hero">
+      <div>
+        <p class="eyebrow dark">Modulo demonstrativo</p>
+        <h2>${name}</h2>
+        <p>${description}</p>
+      </div>
+      <button class="primary-button" onclick="openDemoForm('${name}')">Novo registro</button>
+    </section>
+    <section class="report-sheet">
+      <table>
+        <thead><tr>${headers.map((header) => `<th>${header}</th>`).join('')}<th>Acao</th></tr></thead>
+        <tbody>
+          ${rows.map((row) => `
+            <tr data-search="${searchText(row)}">
+              ${row.map((cell) => `<td>${decorateCell(cell)}</td>`).join('')}
+              <td><button class="outline-button" onclick="openRecord('${name}', '${encodeURIComponent(row[0])}')">Detalhes</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </section>
+  `;
+}
+
 function renderIdCards() {
   const emp = employees[2];
   const verifyUrl = encodeURIComponent('https://conformix-pro.demo/verificar/CFX-NR35-2026-001');
   return `
+    <section class="module-hero">
+      <div>
+        <p class="eyebrow dark">Carteirinha digital NR</p>
+        <h2>Frente e verso prontos para impressao</h2>
+        <p>Modelo demonstrativo com foto, QR Code, validade, treinamentos autorizados e assinatura.</p>
+      </div>
+      <button class="primary-button" onclick="window.print()">Imprimir / PDF</button>
+    </section>
     <div class="card-stage">
       <article class="id-card">
         <div class="id-header">
@@ -224,17 +305,16 @@ function renderIdCards() {
         </div>
       </article>
     </div>
-    <div style="text-align:center;margin-top:20px"><button class="primary-button" onclick="window.print()">Imprimir / PDF</button></div>
   `;
 }
 
 function renderReports() {
   return `
     <section class="report-sheet">
-      <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px">
+      <div class="table-heading">
         <div>
           <p class="eyebrow dark">Relatorio gerencial</p>
-          <h2 style="margin:0">Conformidade por status</h2>
+          <h2>Conformidade por status</h2>
         </div>
         <button class="primary-button" onclick="window.print()">Imprimir / PDF</button>
       </div>
@@ -250,6 +330,24 @@ function renderReports() {
         </tbody>
       </table>
     </section>
+  `;
+}
+
+function renderSettings() {
+  return `
+    <section class="module-hero">
+      <div>
+        <p class="eyebrow dark">Configuracoes</p>
+        <h2>Parametros da empresa demo</h2>
+        <p>Area demonstrativa para mostrar personalizacao de marca, prazos de alerta e dados tecnicos.</p>
+      </div>
+      <button class="primary-button" onclick="openDemoForm('Configuracoes')">Salvar alteracoes</button>
+    </section>
+    <div class="data-grid">
+      <article class="data-card"><h3>Empresa</h3><p>Conformix Demonstracao Industrial LTDA</p></article>
+      <article class="data-card"><h3>Prazo de alerta</h3><p>30 dias antes do vencimento</p></article>
+      <article class="data-card"><h3>Responsavel tecnico</h3><p>Eng. Vitor Augusto - CREA 5070256410</p></article>
+    </div>
   `;
 }
 
@@ -281,7 +379,7 @@ function openProfile(id) {
 }
 
 function showCertificate(code) {
-  const cert = certificates.find((item) => item.code === code);
+  const cert = certificates.find((item) => item.code === code) || certificates[0];
   openModal(`
     <p class="eyebrow dark">Validacao digital</p>
     <h2 style="margin:0 0 12px;font-size:32px">${cert.status === 'Valido' ? 'Certificado valido' : 'Certificado em atencao'}</h2>
@@ -297,6 +395,42 @@ function showCertificate(code) {
       </table>
     </div>
   `);
+}
+
+function openRecord(moduleName, encodedTitle) {
+  openModal(`
+    <p class="eyebrow dark">${moduleName}</p>
+    <h2 style="margin:0 0 12px;font-size:30px">${decodeURIComponent(encodedTitle)}</h2>
+    <p style="color:var(--muted);line-height:1.7">Tela demonstrativa de detalhes. Na versao contratada, aqui entram anexos, historico, edicao, auditoria e impressao.</p>
+    <div class="report-sheet" style="margin-top:18px">
+      <table>
+        <tr><th>Status</th><td><span class="badge blue">Demo</span></td></tr>
+        <tr><th>Rastreabilidade</th><td>Registro ficticio para apresentacao comercial</td></tr>
+        <tr><th>Proxima acao</th><td>Personalizar modulo conforme necessidade do cliente</td></tr>
+      </table>
+    </div>
+  `);
+}
+
+function openDemoForm(moduleName) {
+  openModal(`
+    <p class="eyebrow dark">${moduleName}</p>
+    <h2 style="margin:0 0 12px;font-size:30px">Formulario demonstrativo</h2>
+    <p style="color:var(--muted);line-height:1.7">Esta demo e somente visual. Na implantacao real, este formulario salva no banco de dados do cliente.</p>
+    <div class="data-grid" style="grid-template-columns:1fr 1fr;margin-top:18px">
+      <label class="form-field">Nome<input value="Registro de exemplo"></label>
+      <label class="form-field">Status<input value="Ativo"></label>
+      <label class="form-field full">Observacao<input value="Dados ficticios para apresentacao"></label>
+    </div>
+  `);
+}
+
+function decorateCell(value) {
+  const text = String(value);
+  if (['Ativo', 'Valido', 'Apto', 'Finalizada', '100%'].includes(text)) return `<span class="badge green">${text}</span>`;
+  if (['Vencendo', 'Aguardando documentos', 'Manutencao'].includes(text) || text.includes('pendente')) return `<span class="badge orange">${text}</span>`;
+  if (['Vencido', 'Critico'].includes(text)) return `<span class="badge red">${text}</span>`;
+  return text;
 }
 
 function openModal(html) {
